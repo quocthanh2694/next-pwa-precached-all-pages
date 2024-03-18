@@ -8,39 +8,37 @@ import styles from '../styles/denizens.module.css'
 
 import { getAllItems, dataTypes } from '../lib/data'
 
-function Maturity({ maturity }){
-  if (maturity === 1){
+function Maturity({ maturity }) {
+  if (maturity === 1) {
     return <div className='w-5 inline-block flex-shrink-0 text-center rounded text-blue-700 border border-blue-700' aria-hidden="true">P</div>
-  } else if (maturity === 2){
+  } else if (maturity === 2) {
     return <div className='w-5 inline-block flex-shrink-0 text-center rounded text-white bg-blue-700 border border-blue-700' aria-hidden="true">E</div>
   } else {
     return null
   }
 }
 
-function MaturitySR({ maturity }){
-  if (maturity === 1){
+function MaturitySR({ maturity }) {
+  if (maturity === 1) {
     return <div className='sr-only'>(play test)</div>
-  } else if (maturity === 2){
+  } else if (maturity === 2) {
     return <div className='sr-only'>(experimental)</div>
   } else {
     return null
   }
 }
 
-function DenizenItem({ denizen }){
+function DenizenItem({ denizen }) {
   return (
-    <Link href={`/denizens/${denizen.code}`}>
-      <a className='space-x-2'>
-        <Maturity maturity={denizen.ruleMaturity}/>
-        <div>{ denizen.name }</div>
-        <MaturitySR maturity={denizen.ruleMaturity} />
-      </a>
+    <Link className='space-x-2' href={`/denizens/${denizen.code}`}>
+      <Maturity maturity={denizen.ruleMaturity} />
+      <div>{denizen.name}</div>
+      <MaturitySR maturity={denizen.ruleMaturity} />
     </Link>
   )
 }
 
-function RaceItem({ raceItem }){
+function RaceItem({ raceItem }) {
   return (
     <details className={styles.details}>
       <summary className="text-xl"><h3>{raceItem.title}</h3></summary>
@@ -55,8 +53,8 @@ function RaceItem({ raceItem }){
   )
 }
 
-function Legend(){
-  return(
+function Legend() {
+  return (
     <Section className='p-16px sm:p-4 border border-gray-500'>
       <H className='sr-only'>Appendix</H>
       <Section>
@@ -64,14 +62,14 @@ function Legend(){
         <p className='mt-2'>Denizens that haven&apos;t been released yet are shown with the following symbols:</p>
         <ul>
           <li className='flex mt-2 items-start gap-2'>
-            <Maturity maturity={1}/>
+            <Maturity maturity={1} />
             <div>
               <div className='font-medium'>Play test</div>
               <div>Almost ready for release. Extensive testing is needed to ensure balance.</div>
             </div>
           </li>
           <li className='flex mt-2 items-start gap-2'>
-            <Maturity maturity={2}/>
+            <Maturity maturity={2} />
             <div>
               <div className='font-medium'>Experimental</div>
               <div>An early peek at future denizens. Rules are likely to evolve before release.</div>
@@ -90,7 +88,7 @@ function Legend(){
   )
 }
 
-export default function DenizenList({ races, creatures }){
+export default function DenizenList({ races, creatures }) {
   let raceCodeToTitle = races.reduce((dict, item) => {
     dict[item.code] = formatRace(item)
     return dict
@@ -104,14 +102,14 @@ export default function DenizenList({ races, creatures }){
     else if (a.name > b.name) return 1
     return 0
   }).reduce((acc, item) => {
-    if (acc.length === 0 || acc[acc.length-1].race !== item.race){
+    if (acc.length === 0 || acc[acc.length - 1].race !== item.race) {
       acc.push({
         race: item.race,
         title: raceCodeToTitle[item.race],
         denizens: [item],
       });
     } else {
-      acc[acc.length-1].denizens.push(item)
+      acc[acc.length - 1].denizens.push(item)
     }
     return acc
   }, []).sort((a, b) => {
@@ -123,10 +121,10 @@ export default function DenizenList({ races, creatures }){
   return (
     <Container>
       <Meta options={{
-        title: "Browse Anyaral denizens", 
+        title: "Browse Anyaral denizens",
         description: "Browse World of Twilight denizens by race and quickly check denizens stats",
-        }} />
-      
+      }} />
+
       <h1>Denizens</h1>
 
       <div className='flex flex-wrap justify-around md:justify-between gap-4'>
@@ -153,7 +151,7 @@ export async function getStaticProps() {
   const raceKeys = [
     'code',
     'culture',
-    'theme',    
+    'theme',
   ]
   const creatureKeys = [
     'code',
